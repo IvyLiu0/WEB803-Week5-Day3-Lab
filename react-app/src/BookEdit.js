@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import hookFunction from "./hookFunction";
 
 class BookEdit extends Component {
   emptyBook = {
@@ -14,10 +15,12 @@ class BookEdit extends Component {
     };
   }
   async componentDidMount() {
-    if (this.props.match.params.id !== "new") {
+    // if (this.props.match.params.id !== "new") {
+      let {id} = this.props.params;
+      if (id !== "new") {
       const book = await (
         await fetch(
-          `/api/book/${this.props.match.params.id}`
+          `/api/book/${id}`
         )
       ).json();
       this.setState({ item: book });
@@ -43,7 +46,8 @@ class BookEdit extends Component {
       },
       body: JSON.stringify(item),
     });
-    this.props.history.push("/");
+    // this.props.history.push("/");
+    this.props.navigation("/");
   };
   render() {
     const { item } = this.state;
@@ -100,4 +104,4 @@ class BookEdit extends Component {
   }
 }
 
-export default BookEdit;
+export default hookFunction(BookEdit);
